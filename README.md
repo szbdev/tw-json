@@ -21,3 +21,9 @@ npm install tw-json
 # or
 yarn add tw-json
 ```
+
+## Todo
+
+- [x] Add customizable class names
+- [ ] Add usage documentation and examples
+- [ ] Better view and customizable options
