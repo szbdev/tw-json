@@ -1,6 +1,6 @@
 {
 	"name": "tw-json",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "A JSON viewer for anyone, open source and free to use, fully customizable with TailwindCSS.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
