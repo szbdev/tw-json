@@ -22,6 +22,46 @@ npm install tw-json
 yarn add tw-json
 ```
 
+## Props
+
+All the available props bellow
+
+| Prop                      | Description                                               | Default     |
+| ------------------------- | --------------------------------------------------------- | ----------- |
+| `jsonData` (required)     | The JSON data to be visualized.                           | —           |
+| `classNames`              | An object to override class names for various JSON types. | `{}`        |
+| `classNames.keyClass`     | Custom class for keys.                                    | `undefined` |
+| `classNames.numberClass`  | Custom class for numbers.                                 | `undefined` |
+| `classNames.stringClass`  | Custom class for strings.                                 | `undefined` |
+| `classNames.booleanClass` | Custom class for booleans.                                | `undefined` |
+| `classNames.nullClass`    | Custom class for `null` values.                           | `undefined` |
+| `classNames.arrayClass`   | Custom class for arrays.                                  | `undefined` |
+| `classNames.objectClass`  | Custom class for objects.                                 | `undefined` |
+| `defaultExpandAll`        | Whether to expand all nodes by default.                   | `false`     |
+| `showType`                | Whether to show the data type next to each value.         | `true`      |
+| `theme`                   | The color theme of the viewer.                            | `'light'`   |
+| `showToolbox`             | Whether to show the toolbox (e.g., copy/export buttons).  | `false`     |
+
+```tsx
+import JsonViewer from 'tw-json'
+
+const myJson = {
+  name: "Alice",
+  age: 30,
+  isAdmin: false,
+  roles: ["user", "editor"],
+  meta: null
+}
+
+<JsonViewer
+  jsonData={myJson}
+  defaultExpandAll={true}
+  theme="dark"
+  showType={true}
+  showToolbox={true}
+/>
+```
+
 ## Todo
 
 - [x] Add customizable class names
