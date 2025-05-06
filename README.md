@@ -55,6 +55,8 @@ toolboxOptions props
 | `showExport` | Display the download as JSON button.  | `true`  |
 | `showCopy`   | Display the copy to clipboard button. | `true`  |
 
+## Simple usage
+
 ```tsx
 import JsonViewer from 'tw-json'
 
