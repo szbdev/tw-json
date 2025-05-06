@@ -4,13 +4,12 @@
 
 A simple and customizable JSON viewer component built with React and styled using Tailwind CSS. Perfect for easily displaying JSON data in your web applications with a clean and modern look.
 
-## Features
+## Features 🚀
 
-- **JSON Syntax Highlighting:** Presents your JSON data with clear and readable syntax highlighting.
-- **Collapsible Nodes:** Easily expand and collapse objects and arrays to navigate complex JSON structures.
-- **Tailwind CSS Styling:** Integrates seamlessly with your Tailwind CSS projects, offering easy customization of the viewer's appearance.
-- **React Component:** A straightforward React component that you can drop into your application.
-- **Lightweight:** Designed to be small and efficient.
+- 🦾 100% TypeScript
+- 🎨 Customizable: Key, value, editable, copy, select... Anything you can think of!
+- 🌈 Theme support: light or dark or with custom classNames with TailwindCss.
+- 📋 Copy to Clipboard
 
 ## Installation
 
@@ -26,21 +25,35 @@ yarn add tw-json
 
 All the available props bellow
 
-| Prop                      | Description                                               | Default     |
-| ------------------------- | --------------------------------------------------------- | ----------- |
-| `jsonData` (required)     | The JSON data to be visualized.                           | —           |
-| `classNames`              | An object to override class names for various JSON types. | `{}`        |
-| `classNames.keyClass`     | Custom class for keys.                                    | `undefined` |
-| `classNames.numberClass`  | Custom class for numbers.                                 | `undefined` |
-| `classNames.stringClass`  | Custom class for strings.                                 | `undefined` |
-| `classNames.booleanClass` | Custom class for booleans.                                | `undefined` |
-| `classNames.nullClass`    | Custom class for `null` values.                           | `undefined` |
-| `classNames.arrayClass`   | Custom class for arrays.                                  | `undefined` |
-| `classNames.objectClass`  | Custom class for objects.                                 | `undefined` |
-| `defaultExpandAll`        | Whether to expand all nodes by default.                   | `false`     |
-| `showType`                | Whether to show the data type next to each value.         | `true`      |
-| `theme`                   | The color theme of the viewer.                            | `'light'`   |
-| `showToolbox`             | Whether to show the toolbox (e.g., copy/export buttons).  | `false`     |
+| Prop                  | Description                                               | Default   |
+| --------------------- | --------------------------------------------------------- | --------- |
+| `jsonData` (required) | The JSON data to be visualized.                           | —         |
+| `classNames`          | An object to override class names for various JSON types. | `{}`      |
+| `defaultExpandAll`    | Whether to expand all nodes by default.                   | `false`   |
+| `showType`            | Whether to show the data type next to each value.         | `true`    |
+| `theme`               | The color theme of the viewer.                            | `'light'` |
+| `showToolbox`         | Whether to show the toolbox (e.g., copy/export buttons).  | `false`   |
+| `toolboxOptions`      | Control what to show in the toolbox, see bellow.          | `{}`      |
+
+ClassNames props
+
+| Prop           | Description                     | Default |
+| -------------- | ------------------------------- | ------- |
+| `keyClass`     | Custom class for keys.          | `""`    |
+| `numberClass`  | Custom class for numbers.       | `""`    |
+| `stringClass`  | Custom class for strings.       | `""`    |
+| `booleanClass` | Custom class for booleans.      | `""`    |
+| `nullClass`    | Custom class for `null` values. | `""`    |
+| `arrayClass`   | Custom class for arrays.        | `""`    |
+| `objectClass`  | Custom class for objects.       | `""`    |
+
+toolboxOptions props
+
+| Prop         | Description                           | Default |
+| ------------ | ------------------------------------- | ------- |
+| `showSearch` | Display the search box or not.        | `true`  |
+| `showExport` | Display the download as JSON button.  | `true`  |
+| `showCopy`   | Display the copy to clipboard button. | `true`  |
 
 ```tsx
 import JsonViewer from 'tw-json'
@@ -62,8 +75,8 @@ const myJson = {
 />
 ```
 
-## Todo
+## Share your work and tag me so I can see what you can do with my package
 
-- [x] Add customizable class names
-- [ ] Add usage documentation and examples
-- [ ] Better view and customizable options
+- [X / Twitter](https://x.com/szbdev)
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/szbdev)

@@ -19,16 +19,34 @@ interface JsonViewerProps {
 	showType?: boolean
 	theme?: 'light' | 'dark'
 	showToolbox?: boolean
+	toolboxOptions?: {
+		showSearch?: boolean
+		showExport?: boolean
+		showCopy?: boolean
+	}
 }
 
 interface ExpandedState {
 	[key: string]: boolean
 }
 
-const JsonViewer: React.FC<JsonViewerProps> = ({jsonData, classNames = {}, defaultExpandAll = false, showType = true, theme = 'light', showToolbox = false}) => {
+const JsonViewer: React.FC<JsonViewerProps> = ({
+	jsonData,
+	classNames = {},
+	defaultExpandAll = false,
+	showType = true,
+	theme = 'light',
+	showToolbox = false,
+	toolboxOptions = {
+		showSearch: true,
+		showExport: true,
+		showCopy: true,
+	},
+}) => {
 	const [expanded, setExpanded] = useState<ExpandedState>({})
 	const [highlightedPaths, setHighlightedPaths] = useState<string[]>([])
 	const [currentHighlightIndex, setCurrentHighlightIndex] = useState<number>(-1)
+	const [copiedPath, setCopiedPath] = useState<string | null>(null) // State to track which path was copied
 	const contentRef = useRef<HTMLDivElement>(null)
 	const highlightedPathsRef = useRef<string[]>([])
 
@@ -40,13 +58,13 @@ const JsonViewer: React.FC<JsonViewerProps> = ({jsonData, classNames = {}, defau
 	const isDarkTheme = theme === 'dark'
 
 	const defaultClasses = {
-		keyClass: isDarkTheme ? 'text-red-300' : 'text-red-500',
-		numberClass: isDarkTheme ? 'text-yellow-300' : 'text-orange-500',
-		stringClass: isDarkTheme ? 'text-green-300' : 'text-green-500',
-		booleanClass: isDarkTheme ? 'text-purple-300' : 'text-purple-500',
+		keyClass: isDarkTheme ? 'text-gray-400' : 'text-red-500',
+		numberClass: isDarkTheme ? 'text-blue-300' : 'text-orange-500',
+		stringClass: isDarkTheme ? 'text-emerald-400' : 'text-green-500',
+		booleanClass: isDarkTheme ? 'text-rose-300' : 'text-purple-500',
 		nullClass: isDarkTheme ? 'text-gray-300' : 'text-gray-500',
-		arrayClass: isDarkTheme ? 'text-teal-300' : 'text-teal-500',
-		objectClass: isDarkTheme ? 'text-blue-300' : 'text-blue-500',
+		arrayClass: isDarkTheme ? 'text-fuchsia-300' : 'text-teal-500',
+		objectClass: isDarkTheme ? 'text-amber-300' : 'text-blue-500',
 	}
 
 	// Merge default classes with custom classes, giving priority to custom ones
@@ -99,7 +117,11 @@ const JsonViewer: React.FC<JsonViewerProps> = ({jsonData, classNames = {}, defau
 	const handleSearch = useCallback(
 		(query: string) => {
 			const newHighlightedPaths: string[] = []
-
+			if (query.trim() === '') {
+				setHighlightedPaths([])
+				setCurrentHighlightIndex(-1) // Reset index
+				return
+			}
 			const traverse = (obj: any, path: string = '') => {
 				if (typeof obj === 'object' && obj !== null) {
 					if (Array.isArray(obj)) {
@@ -172,6 +194,15 @@ const JsonViewer: React.FC<JsonViewerProps> = ({jsonData, classNames = {}, defau
 		link.click()
 	}
 
+	const handleCopyString = (text: string, path: string) => {
+		navigator.clipboard.writeText(text).then(() => {
+			setCopiedPath(path)
+			setTimeout(() => {
+				setCopiedPath(null)
+			}, 1000) // Reset copied state after 1 second
+		})
+	}
+
 	const renderJson = (json: any, path: string = '') => {
 		const isHighlighted = highlightedPaths.includes(path)
 		const isCurrentHighlight = highlightedPaths.length > 0 && path === highlightedPaths[currentHighlightIndex]
@@ -207,15 +238,15 @@ const JsonViewer: React.FC<JsonViewerProps> = ({jsonData, classNames = {}, defau
 		}
 
 		if (type === 'string') {
+			const isCurrentlyCopied = copiedPath === path
 			return (
 				<span data-path={path} className={highlightClass}>
 					<span className={mergedClasses.stringClass}>"{json}"</span>
 					{showType && <span className='text-gray-500'> string</span>}
 					<span
-						onClick={() => {
-							navigator.clipboard.writeText(json)
-						}}>
-						Copy
+						className={`pl-2 text-sm opacity-70 cursor-pointer ${isCurrentlyCopied ? 'text-green-500' : ''}`} // Apply green color if copied
+						onClick={() => handleCopyString(json, path)}>
+						{isCurrentlyCopied ? 'Copied!' : 'Copy'} {/* Show 'Copied!' or 'Copy' */}
 					</span>
 				</span>
 			)
@@ -298,7 +329,22 @@ const JsonViewer: React.FC<JsonViewerProps> = ({jsonData, classNames = {}, defau
 
 	return (
 		<div className='w-full h-full flex flex-col rounded-md overflow-hidden border-2 border-[#202020] shadow-md'>
-			{showToolbox && <Toolbox onSearch={handleSearch} onExport={handleExport} theme={theme} onNext={handleNext} onPrev={handlePrev} hasResults={highlightedPaths.length > 0} />}
+			{showToolbox && (
+				<Toolbox
+					onCopy={() => {
+						const json = JSON.stringify(jsonData, null, 2)
+						navigator.clipboard.writeText(json)
+						return json
+					}}
+					onSearch={handleSearch}
+					onExport={handleExport}
+					theme={theme}
+					onNext={handleNext}
+					onPrev={handlePrev}
+					hasResults={highlightedPaths.length > 0}
+					toolboxOptions={toolboxOptions}
+				/>
+			)}
 			<div ref={contentRef} className={`overflow-auto  font-mono whitespace-pre-wrap   p-2 ${themeClass}`}>
 				{renderJson(jsonData)}
 			</div>
